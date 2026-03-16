@@ -588,12 +588,6 @@ def main() -> None:
         help="Customer/brand name for the report (e.g. macdonald). Used in the default prompt.",
     )
     parser.add_argument(
-        "--prompt",
-        "-p",
-        default="",
-        help="Text prompt for the LLM (default: built-in HTML report prompt)",
-    )
-    parser.add_argument(
         "--references-dir",
         "-r",
         default="references",
@@ -630,7 +624,7 @@ def main() -> None:
 
     has_pdf = len(pdf_paths) > 0
     pdf_attached = has_pdf and MODEL_PROVIDER == "gemini"
-    prompt = args.prompt.strip() or build_default_prompt(
+    prompt = build_default_prompt(
         image_specs,
         has_pdf_example=has_pdf,
         pdf_attached=pdf_attached,

@@ -145,12 +145,6 @@ python report_generation/report_generation.py
 
 Uses the default prompt (Chinese) and looks for reference images in `report_generation/references/`. The generated report is in Chinese.
 
-### With custom prompt
-
-```bash
-python report_generation/report_generation.py -p "请生成一份市场分析 HTML 报告，使用内联 CSS，输出合法 HTML5。"
-```
-
 ### With custom paths
 
 ```bash
@@ -172,7 +166,6 @@ python report_generation/report_generation.py "客户名" -t STREET
 
 | Option | Short | Default | Description |
 |--------|-------|---------|-------------|
-| `--prompt` | `-p` | (built-in) | Text prompt for the LLM |
 | `--references-dir` | `-r` | `references` | Folder containing reference images, PDFs, and requirement.txt |
 | `--report-type` | `-t` | (all PDFs) | Use `MALL.pdf` or `STREET.pdf` as structure reference |
 | `--output-dir` | `-o` | `output` | Output directory for response and PDF |

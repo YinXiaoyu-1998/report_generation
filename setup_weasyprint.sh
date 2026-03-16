@@ -2,9 +2,8 @@
 # Install WeasyPrint system dependencies + Python deps for report_generation.
 #
 # One-liner (from project root):
-#   bash report_generation/setup_weasyprint.sh
-# Or from report_generation/:
 #   bash setup_weasyprint.sh
+
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
