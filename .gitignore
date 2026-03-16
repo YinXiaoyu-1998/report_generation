@@ -18,3 +18,5 @@ output/**
 references/**
 !references/.gitkeep
 
+resources/**
+!resources/.gitkeep
