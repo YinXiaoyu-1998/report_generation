@@ -1,0 +1,17 @@
+# Report generation script dependencies (core - no system libs required)
+google-generativeai>=0.8.0
+python-dotenv>=1.0.0
+reportlab>=4.0.0
+xhtml2pdf>=0.2.0
+
+# Optional: for Qwen model (when MODEL_PROVIDER=qwen)
+dashscope>=1.14.0
+
+# Optional: WeasyPrint for best PDF quality (images, CSS, backgrounds).
+# Requires system deps on macOS: brew install pkg-config cairo pango
+# If install fails, the script falls back to xhtml2pdf/reportlab.
+weasyprint>=62.0
+
+# Optional: PyMuPDF for cropping single-page PDF to content (removes trailing white space).
+# If not installed, PDF is generated without cropping.
+pymupdf>=1.24.0

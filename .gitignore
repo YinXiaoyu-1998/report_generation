@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*.pyo
+
+.DS_Store
+
+# Local virtual environments (if created here)
+.venv/
+
+# Local environment files for this module
+.env
+
+# Generated outputs (kept empty in git via .gitkeep)
+output/**
+!output/.gitkeep
+
+# User input references (images, PDFs, text; kept empty via .gitkeep)
+references/**
+!references/.gitkeep
+
