@@ -17,8 +17,8 @@ The module generates **Chinese PDF site-selection reports** for a customer using
 
 Core files:
 
-- Main script: `report_generation/report_generation.py`
-- Documentation: `report_generation/README.md`
+- Main script: `report_generation.py`
+- Documentation: `README.md`
 
 Agents should **reuse this script** instead of re-implementing the pipeline.
 
@@ -35,7 +35,7 @@ Agents should **reuse this script** instead of re-implementing the pipeline.
 Install dependencies from the project root:
 
 ```bash
-pip install -r report_generation/requirements.txt
+pip install -r requirements.txt
 ```
 
 Packages include:
@@ -50,7 +50,7 @@ WeasyPrint requires system libraries such as **Pango**, **Cairo**, **GLib**, **H
 Preferred installation method (from the project root):
 
 ```bash
-bash report_generation/setup_weasyprint.sh
+bash setup_weasyprint.sh
 ```
 
 Behavior of this script:
@@ -68,7 +68,7 @@ If WeasyPrint is not available, the script falls back to `xhtml2pdf`, then to a 
 
 ## Configuration (environment variables)
 
-Set environment variables (for example, via a `.env` file in the project root or in `report_generation/.env`). The script uses `python-dotenv` to load them.
+Set environment variables (for example, via a `.env` file in the project root or in `.env`). The script uses `python-dotenv` to load them.
 
 ### Model provider
 
@@ -95,7 +95,7 @@ Used when `MODEL_PROVIDER=qwen`:
 - **Required**:
   - `DASHSCOPE_API_KEY`
 - **Optional**:
-  - `QWEN_MODEL_NAME` (default: `qwen-vl-plus`)
+  - `QWEN_MODEL_NAME` (default: `qwen3.5-plus`)
 
 If the required API key is missing, `report_generation.py` will raise a clear `ValueError`.
 
@@ -105,7 +105,7 @@ If the required API key is missing, `report_generation.py` will raise a clear `V
 
 By default, the script reads inputs from:
 
-- `report_generation/references/`
+- `references/`
 
 Agents may override this via `--references-dir`, but the structure stays the same.
 
@@ -156,7 +156,7 @@ Run commands from the **project root**.
 The main entry point is:
 
 ```bash
-python report_generation/report_generation.py
+python3 report_generation.py
 ```
 
 The script arguments (summarized from `argparse`):
@@ -166,55 +166,34 @@ The script arguments (summarized from `argparse`):
     - The customer/brand name (e.g. `"麦当劳"`).
     - Used in the prompt and in the PDF filename.
 - Options:
-  - `--references-dir`, `-r` (default: `references`):
-    - Folder containing reference images, PDFs, and text files.
-    - Resolved relative to `report_generation/`.
   - `--report-type`, `-t`:
     - Choices: `MALL`, `STREET`
     - Selects `MALL.pdf` or `STREET.pdf` as the structure example.
     - If omitted, all PDFs in the references folder are used as examples.
-  - `--output-dir`, `-o` (default: `output`):
-    - Output directory for response and PDF.
-    - Resolved relative to `report_generation/`.
+
 
 ### Common invocation patterns
 
 #### Basic run (defaults)
 
 ```bash
-python report_generation/report_generation.py
+python report_generation.py
 ```
 
 - Uses default prompt (Chinese).
-- Uses `report_generation/references/` as the references folder.
-- Uses `report_generation/output/` as the output folder.
+- Uses `references/` as the references folder.
+- Uses `output/` as the output folder.
 
 #### With customer name and report type
 
 ```bash
-python report_generation/report_generation.py "客户名" --report-type MALL
-python report_generation/report_generation.py "客户名" --report-type STREET
+python report_generation.py "客户名" --report-type MALL
+python report_generation.py "客户名" --report-type STREET
 ```
 
 - Embeds the customer name into the prompt and output PDF filename.
 - Uses only the corresponding `MALL.pdf` or `STREET.pdf` as structure example (if present).
 
-#### With custom prompt
-
-```bash
-python report_generation/report_generation.py -p "请生成一份市场分析 HTML 报告，使用内联 CSS，输出合法 HTML5。"
-```
-
-- Overrides the default prompt.
-- Still expects the same references folder layout.
-
-#### Custom references/output directories
-
-```bash
-python report_generation/report_generation.py -r references -o output
-```
-
-- `-r` and `-o` are resolved relative to `report_generation/`.
 
 ---
 
@@ -222,7 +201,7 @@ python report_generation/report_generation.py -r references -o output
 
 By default, outputs go to:
 
-- `report_generation/output/`
+- `output/`
 
 On success:
 
@@ -249,7 +228,7 @@ Agents should **not assume** these intermediate artifacts exist after a successf
 
 ## Internal behavior (reference for agents)
 
-High-level process in `report_generation/report_generation.py`:
+High-level process in `report_generation.py`:
 
 1. **Collect references**
    - Images via `get_reference_images` and `prepare_report_assets`.
@@ -319,10 +298,10 @@ Agent actions:
 - Run:
 
   ```bash
-  bash report_generation/setup_weasyprint.sh
+  bash setup_weasyprint.sh
   ```
 
-- On macOS, if WeasyPrint still cannot locate Homebrew libraries, consult `report_generation/README.md` for instructions on setting `DYLD_FALLBACK_LIBRARY_PATH` (Apple Silicon vs Intel).
+- On macOS, if WeasyPrint still cannot locate Homebrew libraries, consult `README.md` for instructions on setting `DYLD_FALLBACK_LIBRARY_PATH` (Apple Silicon vs Intel).
 
 Even if WeasyPrint fails, the script attempts `xhtml2pdf` and finally `reportlab`. Agents can recommend installing WeasyPrint properly for best layout and styling.
 
@@ -339,7 +318,7 @@ Agent actions:
   - A `LOCATION` image exists and is correctly named (`LOCATION.jpg`, `LOCATION.png`, etc.).
   - Optional `POSITION` and `PHOTO_N` images are correctly named.
   - `requirement.txt` and `SHOP_DETAIL.txt` exist and are UTF-8 encoded if used.
-- Ensure paths are correct relative to `report_generation/references/` or the directory passed via `--references-dir`.
+- Ensure paths are correct relative to `references/`.
 
 ---
 
@@ -349,7 +328,7 @@ Agent actions:
 
 - **Do:**
   - Use this skill whenever generating or debugging Chinese PDF site-selection reports in this project.
-  - Prefer running `report_generation/report_generation.py` with appropriate arguments instead of re-writing similar code.
+  - Prefer running `report_generation.py` with appropriate arguments instead of re-writing similar code.
   - Help the user:
     - Set up and verify `.env` configuration.
     - Prepare the `references/` folder with correct filenames and formats.

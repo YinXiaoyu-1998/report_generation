@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Install WeasyPrint system dependencies + Python deps for report_generation.
 #
-# One-liner (from project root):
+# One-liner:
 #   bash setup_weasyprint.sh
 
 set -e

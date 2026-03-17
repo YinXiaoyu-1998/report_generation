@@ -663,7 +663,7 @@ def main() -> None:
     print(f"Saved PDF to {pdf_file}")
 
     # Clean up temporary files and assets after successful generation
-    cleanup_temp_outputs(output_dir)
+    # cleanup_temp_outputs(output_dir)
 
 
 if __name__ == "__main__":

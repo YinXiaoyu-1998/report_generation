@@ -12,15 +12,15 @@ Generate PDF reports using LLMs (Gemini or Qwen). The LLM outputs HTML (with lay
 **One-liner (system deps + Python deps, including WeasyPrint):**
 
 ```bash
-bash report_generation/setup_weasyprint.sh
+bash setup_weasyprint.sh
 ```
 
-Runs from project root; detects macOS (Homebrew) or Linux (apt/dnf/pacman), installs WeasyPrint system libraries and `pip install -r report_generation/requirements.txt`. Uses `.venv` if present.
+Runs from project root; detects macOS (Homebrew) or Linux (apt/dnf/pacman), installs WeasyPrint system libraries and `pip install -r requirements.txt`. Uses `.venv` if present.
 
 **Manual (Python only, no WeasyPrint system libs):**
 
 ```bash
-pip install -r report_generation/requirements.txt
+pip install -r requirements.txt
 ```
 
 ### WeasyPrint (optional, for best PDF quality)
@@ -83,8 +83,7 @@ More options (Alpine, Macports, Conda, Windows): [WeasyPrint — First steps](ht
 
 ## Environment Setup
 
-Create a `.env` file at the **project root** so it works regardless of where you run the script.  
-You can also place it in `report_generation/.env` if you only use this module.
+Create a `.env` file.
 
 ### Gemini (default)
 
@@ -122,10 +121,6 @@ report_generation/
 │   ├── POSITION.jpg            # Optional: shop position inside mall
 │   ├── MALL.pdf                # Optional: mall report structure example
 │   └── STREET.pdf              # Optional: street report structure example
-├── resources/
-│   └── current_flow/
-│       ├── original_prompt.txt # Internal prompt template
-│       └── requirements.txt    # Internal flow requirements
 ├── output/                     # Generated artifacts (git-ignored; kept via .gitkeep)
 │   ├── .gitkeep
 │   ├── response.txt            # Raw LLM output
@@ -140,26 +135,18 @@ report_generation/
 ### Basic run
 
 ```bash
-python report_generation/report_generation.py
+python report_generation.py
 ```
 
-Uses the default prompt (Chinese) and looks for reference images in `report_generation/references/`. The generated report is in Chinese.
-
-### With custom paths
-
-```bash
-python report_generation/report_generation.py -r references -o output
-```
-
-All paths are relative to the `report_generation/` folder.
+Uses the default prompt (Chinese) and looks for reference images in `references/`. The generated report is in Chinese.
 
 ### With report type (MALL vs STREET)
 
 Use `--report-type` to choose which PDF structure reference to use. Both `MALL.pdf` and `STREET.pdf` should be present in the references folder; the script uses only the selected one.
 
 ```bash
-python report_generation/report_generation.py "客户名" --report-type MALL
-python report_generation/report_generation.py "客户名" -t STREET
+python3 report_generation.py "客户名" --report-type MALL
+python3 report_generation.py "客户名" -t STREET
 ```
 
 ### Options
@@ -177,12 +164,12 @@ python report_generation/report_generation.py "客户名" -t STREET
 - **`output/<客户名>_选址报告_YYYYMMDD.pdf`** — Final PDF report (with images, styling, backgrounds)
 - **`output/_report_assets/`** — Copy of reference images with predictable names (`location.ext`, `position.ext`, `photo_N.ext`, **deleted after successful run**)
 
-All are written under `report_generation/output/` by default (or the folder you pass via `--output-dir`).  
+All are written under `output/` by default (or the folder you pass via `--output-dir`).  
 Temporary artifacts (`response.txt`, `report.html`, `_report_assets/`) are removed automatically once the PDF has been generated without error.
 
 ## References Folder
 
-Place inputs in `report_generation/references/`:
+Place inputs in `references/`:
 
 | File / Type | Purpose |
 |-------------|---------|
